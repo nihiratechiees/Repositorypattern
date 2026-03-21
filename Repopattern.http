@@ -1,0 +1,6 @@
+@Repopattern_HostAddress = http://localhost:5153
+
+GET {{Repopattern_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
