@@ -1,6 +1,12 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Repopattern.Data;
 using Repopattern.Repository;
+using Repopattern.Repository.Implementation;
+using Repopattern.Repository.Interface;
+using Repopattern.Service;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +16,25 @@ builder.Services.AddDbContext<LearnDBContext>(options =>
 });
 
 builder.Services.AddScoped<IAssociateRepository, AssociateRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<JWTService>();
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+{
+    var key = builder.Configuration["Jwtsettings:key"];
+    var _key=Encoding.UTF8.GetBytes(key);
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["Jwtsettings:Issuer"],
+        ValidAudience = builder.Configuration["Jwtsettings:Audience"],
+        IssuerSigningKey=new SymmetricSecurityKey(_key)
+    };
+});
 
 // Add services to the container.
 

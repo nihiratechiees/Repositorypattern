@@ -8,5 +8,6 @@ namespace Repopattern.Data
         public LearnDBContext(DbContextOptions<LearnDBContext> options) : base(options) { }
 
         public DbSet<Associate> associates { get; set; } = default!;
+        public DbSet<User> user { get; set; } = default!;
     }
 }
