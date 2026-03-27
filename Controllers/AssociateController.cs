@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repopattern.Model;
@@ -16,7 +17,7 @@ namespace Repopattern.Controllers
         {
             _associateRepository = associateRepository;
         }
-
+        [EnableCors("addcors")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -24,7 +25,7 @@ namespace Repopattern.Controllers
             return Ok(_list);
 
         }
-
+       
         [HttpGet("{Id}")]
         public async Task<IActionResult> Getbycode(string Id)
         {
