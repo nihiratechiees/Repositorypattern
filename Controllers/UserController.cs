@@ -35,7 +35,7 @@ namespace Repopattern.Controllers
         public async Task<IActionResult> Register(User user)
         {
             await _userRepository.AddUser(user);
-            return Ok("Created");
+            return Ok(new ApiResponse { message="pass"});
 
         }
 

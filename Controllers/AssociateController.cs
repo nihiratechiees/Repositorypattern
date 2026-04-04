@@ -42,7 +42,7 @@ namespace Repopattern.Controllers
         public async Task<IActionResult> Create(Associate associate)
         {
             await _associateRepository.Create(associate);
-            return Ok();
+            return Ok(new ApiResponse { message = "pass" });
         }
 
         [HttpPut("{Id}")]
@@ -53,7 +53,7 @@ namespace Repopattern.Controllers
                 return BadRequest();
             }
             await _associateRepository.Update(associate);
-            return Ok();
+            return Ok(new ApiResponse { message = "pass" });
         }
 
         [HttpDelete("{Id}")]
@@ -64,7 +64,7 @@ namespace Repopattern.Controllers
             {
                 return NotFound();
             }
-            return Ok();
+            return Ok(new ApiResponse { message = "pass" });
         }
     }
 }

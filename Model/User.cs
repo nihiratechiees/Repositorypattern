@@ -24,4 +24,9 @@ namespace Repopattern.Model
         public string Password { get; set; }
     }
 
+    public class ApiResponse
+    {
+        public string message { get; set; }
+    }
+
 }
