@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repopattern.Data;
 
@@ -10,9 +11,11 @@ using Repopattern.Data;
 namespace Repopattern.Migrations
 {
     [DbContext(typeof(LearnDBContext))]
-    partial class LearnDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260430151447_new2")]
+    partial class new2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,6 +56,7 @@ namespace Repopattern.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
@@ -60,7 +64,7 @@ namespace Repopattern.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TestProducts");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Repopattern.Model.User", b =>

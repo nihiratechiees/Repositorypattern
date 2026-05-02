@@ -9,5 +9,6 @@ namespace Repopattern.Data
 
         public DbSet<Associate> associates { get; set; } = default!;
         public DbSet<User> user { get; set; } = default!;
+        public DbSet<Product> TestProducts { get; set; }
     }
 }
