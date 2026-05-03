@@ -6,60 +6,18 @@ using System;
 
 namespace Repopattern.Repository.Implementation
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork(
+        LearnDBContext context,
+        IOrderRepository orderRepository,
+        IOrderItemRepository orderItem) : IUnitOfWork
     {
-        private readonly LearnDBContext _context;
-
-        public IGenericRepository<Product> Products { get; }
-        private IDbContextTransaction _transaction;
-
-        public UnitOfWork(LearnDBContext context)
-        {
-            _context = context;
-            Products = new GenericRepository<Product>(context);
-        }
+        private readonly LearnDBContext _context = context;
+        public IOrderRepository Orders { get; } = orderRepository;
+        public IOrderItemRepository OrderItems { get; } = orderItem;
+        private IDbContextTransaction? _transaction;
 
         public async Task<int> CompleteAsync()
             => await _context.SaveChangesAsync();
-
-        // 🔹 Begin Transaction
-        public async Task BeginTransactionAsync()
-        {
-            if (_transaction != null) return;
-
-            _transaction = await _context.Database.BeginTransactionAsync();
-        }
-
-        public async Task CommitAsync()
-        {
-            try
-            {
-                await _context.SaveChangesAsync();
-                await _transaction.CommitAsync();
-            }
-            catch
-            {
-                await RollbackAsync();
-                throw;
-            }
-            finally
-            {
-                if (_transaction != null)
-                {
-                    await _transaction.DisposeAsync();
-                    _transaction = null;
-                }
-            }
-        }
-        public async Task RollbackAsync()
-        {
-            if (_transaction != null)
-            {
-                await _transaction.RollbackAsync();
-                await _transaction.DisposeAsync();
-                _transaction = null;
-            }
-        }
 
         public void Dispose()
         {
